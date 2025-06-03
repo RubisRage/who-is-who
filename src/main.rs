@@ -17,38 +17,39 @@ struct Tarea {
 
 fn render_page(tareas: &[Tarea]) -> Markup {
     html! {
-        html lang="en" {
-            head {
-                meta charset="UTF-8";
-                meta name="viewport" content="width=device-width, initial-scale=1.0";
-                script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous" {}
-                title { "Who is who" }
-            }
-            body {
-                h1 { "Ejemplo de uso" }
-                main {
-                    section {
-                        h3 { "Lista de tareas" }
-                        ul id="lista" {
-                            @for tarea in tareas {
-                                (render_tarea(tarea))
+            html lang="en" {
+                head {
+                    meta charset="UTF-8";
+                    meta name="viewport" content="width=device-width, initial-scale=1.0";
+                    script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous" {}
+                    script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" {}
+                    title { "Who is who" }
+                }
+                body {
+                    h1 { "Ejemplo de uso" }
+                    main {
+                        section {
+                            h3 { "Lista de tareas" }
+                            ul id="lista" {
+                                @for tarea in tareas {
+                                    (render_tarea(tarea))
+                                }
                             }
                         }
-                    }
-                    form {
-                        h2 { "Crear una tarea" }
-                        div {
-                            label for="description" { "Descripción:" }
-                            input #"description" name="description" type="text";
-                        }
-                        button type="submit" hx-post="/nueva" hx-target="#lista" hx-swap="beforeend" {
-                            "Añadir"
+                        form {
+                            h2 { "Crear una tarea" }
+                            div {
+                                label for="description" { "Descripción:" }
+                                input #"description" name="description" type="text";
+                            }
+                            button type="submit" hx-post="/nueva" hx-target="#lista" hx-swap="beforeend" {
+                                "Añadir"
+                            }
                         }
                     }
                 }
             }
         }
-    }
 }
 
 fn render_tarea(tarea: &Tarea) -> Markup {
