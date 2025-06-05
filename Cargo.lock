@@ -1832,6 +1832,7 @@ version = "0.1.0"
 dependencies = [
  "axum",
  "axum-macros 0.4.2",
+ "encoding_rs",
  "maud",
  "reqwest",
  "scraper",

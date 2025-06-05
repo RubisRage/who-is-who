@@ -1,5 +1,6 @@
 use std::{fmt::Display, time::Duration};
 
+use encoding_rs::WINDOWS_1252;
 use reqwest::blocking::Client;
 use scraper::{Html, Selector};
 
@@ -60,7 +61,10 @@ impl ScrappedProfessor {
             retries += 1;
         }?;
 
-        let document = Html::parse_document(&res.error_for_status()?.text()?);
+        let bytes = res.error_for_status()?.bytes()?;
+        let (body, _, _) = WINDOWS_1252.decode(&bytes);
+
+        let document = Html::parse_document(&body);
 
         let name_selector = Selector::parse("span.texto")
             .expect("span.texto should be a valid CSS selector");
@@ -115,7 +119,7 @@ fn main() {
                 println!("Professor has name: '{name}' and no photo")
             }
 
-            Err(e) => println!("{e}")
+            Err(e) => println!("{e}"),
         }
     }
 }
